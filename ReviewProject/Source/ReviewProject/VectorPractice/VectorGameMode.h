@@ -15,9 +15,12 @@ enum class VectorState : uint8
 {
 	Idle,
 	Trace,
+	WorldTrace,
 	Jump,
 	AccTrace,
 	Look, // Just Teleport Rotataion
+	AngleRot,
+	AngleLook
 };
 
 UCLASS()

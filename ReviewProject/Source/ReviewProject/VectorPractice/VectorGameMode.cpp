@@ -73,6 +73,15 @@ void AVectorGameMode::Tick(float _Delta)
 		}
 		break;
 		
+		case VectorState::WorldTrace:
+		{
+			FVector Dir = MainActor->GetActorLocation() - OtherActor->GetActorLocation();
+			Dir.Normalize();
+
+			OtherActor->AddActorWorldOffset(Dir * _Delta * VectorSpeed);
+		}
+		break;
+
 		case VectorState::Jump:
 		{
 			FVector Gravity = { -500, 0, 0};
@@ -107,10 +116,46 @@ void AVectorGameMode::Tick(float _Delta)
 			FVector Dir = MainActor->GetActorLocation() - OtherActor->GetActorLocation();
 			
 			FRotator Rot = Dir.Rotation();
-			
-			
 
 			OtherActor->SetActorRotation(Rot);
+		}
+		break;
+
+		case VectorState::AngleRot:
+		{
+			FRotator Rot = FRotator::MakeFromEuler( {0, 0, 360.0f * _Delta } );
+			OtherActor->AddActorWorldRotation(Rot);
+		}
+		break;
+
+		case VectorState::AngleLook:
+		{
+			FVector MainPos = MainActor->GetActorLocation();
+			FVector OtherPos = OtherActor->GetActorLocation();
+
+			MainPos.Z = 0.0f;
+			OtherPos.Z = 0.0f;
+
+			FVector Dir = MainPos - OtherPos;
+
+			float Angle = Dir.HeadingAngle();
+			Angle = FMath::RadiansToDegrees(Angle);
+
+			UE_LOG(LogTemp, Log, TEXT("%s(%u) > Angle[%f] ")
+				, __FUNCTION__, __LINE__, Angle );
+
+			if (FMath::Abs(Angle) <= 5.0f)
+			{
+				break;
+			}
+			else
+			{
+				Angle = -1.0f;
+			}
+
+			FRotator Rot = FRotator::MakeFromEuler({ 0, 0, Angle * 360.0f * _Delta });
+			OtherActor->AddActorWorldRotation(Rot);
+
 		}
 		break;
 		default:
