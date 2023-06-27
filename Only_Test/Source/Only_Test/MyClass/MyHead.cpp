@@ -33,6 +33,16 @@ void AMyHead::PressLeftAction()
 		return;
 	}
 
+
+	for (size_t i = 1; i < GetMyGameMode()->Snake.Num(); i++)
+	{
+		if (GetMyGameMode()->Snake[i]->GetActorLocation() == GetActorLocation() + MovePos)
+		{
+			UE_LOG(LogTemp, Error, TEXT("GameOver"));
+		}
+	}
+
+
 	for (int i = 0; i < GetMyGameMode()->Snake.Num(); i++)
 	{
 		Cast<AMyPart>(GetMyGameMode()->Snake[i])->Prev = GetMyGameMode()->Snake[i]->GetActorLocation();
@@ -90,6 +100,14 @@ void AMyHead::PressRightAction()
 		return;
 	}
 
+	for (size_t i = 1; i < GetMyGameMode()->Snake.Num(); i++)
+	{
+		if (GetMyGameMode()->Snake[i]->GetActorLocation() == GetActorLocation() + MovePos)
+		{
+			UE_LOG(LogTemp, Error, TEXT("GameOver"));
+		}
+	}
+
 	for (int i = 0; i < GetMyGameMode()->Snake.Num(); i++)
 	{
 		Cast<AMyPart>(GetMyGameMode()->Snake[i])->Prev = GetMyGameMode()->Snake[i]->GetActorLocation();
@@ -141,6 +159,14 @@ void AMyHead::PressUpAction()
 	if (GetMyGameMode()->IsPart(GetActorLocation() + MovePos, "Wall") == true)
 	{
 		return;
+	}
+
+	for (size_t i = 1; i < GetMyGameMode()->Snake.Num(); i++)
+	{
+		if (GetMyGameMode()->Snake[i]->GetActorLocation() == GetActorLocation() + MovePos)
+		{
+			UE_LOG(LogTemp, Error, TEXT("GameOver"));
+		}
 	}
 
 	for (int i = 0; i < GetMyGameMode()->Snake.Num(); i++)
@@ -195,6 +221,13 @@ void AMyHead::PressDownAction()
 		return;
 	}
 
+	for (size_t i = 1; i < GetMyGameMode()->Snake.Num(); i++)
+	{
+		if (GetMyGameMode()->Snake[i]->GetActorLocation() == GetActorLocation() + MovePos)
+		{
+			UE_LOG(LogTemp, Error, TEXT("GameOver"));
+		}
+	}
 
 	for (int i = 0; i < GetMyGameMode()->Snake.Num(); i++)
 	{
