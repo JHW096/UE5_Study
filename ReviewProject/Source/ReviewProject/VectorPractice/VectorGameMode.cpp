@@ -55,6 +55,23 @@ void AVectorGameMode::BeginPlay()
 #pragma endregion
 
 
+#pragma region ResponLocation
+
+	{
+		TArray<AActor*> AllActor;
+		UGameplayStatics::GetAllActorsWithTag(GetWorld(), "Respon", AllActor);
+
+		if (AllActor.Num() != 1)
+		{
+			UE_LOG(LogTemp, Error, TEXT("Can not find Respon"));
+		}
+		ResponLocation = AllActor[0];
+	}
+	
+
+#pragma endregion
+
+
 }
 
 void AVectorGameMode::Tick(float _Delta)
@@ -156,6 +173,51 @@ void AVectorGameMode::Tick(float _Delta)
 			FRotator Rot = FRotator::MakeFromEuler({ 0, 0, Angle * 360.0f * _Delta });
 			OtherActor->AddActorWorldRotation(Rot);
 
+		}
+		break;
+
+		case VectorState::FQuat:
+		{
+			FVector Dir = MainActor->GetActorLocation() - OtherActor->GetActorLocation();
+			Dir.Z = 0.0f;
+			Dir.Normalize();
+
+			FVector ResponDir = ResponLocation->GetActorLocation() -
+				OtherActor->GetActorLocation();
+			ResponDir.Z = 0.0f;
+			ResponDir.Normalize();
+
+			FVector Dir2 = -Dir;
+
+			FRotator Rot = Dir.Rotation();
+			FRotator Rot2 = Dir2.Rotation();
+			FRotator ResponRot = ResponDir.Rotation();
+
+			FQuat qrat = Rot.Quaternion();
+			FQuat qrat2 = Rot2.Quaternion();
+			FQuat ResponQart = ResponRot.Quaternion();
+
+			float Fdistance = MainActor->GetDistanceTo(OtherActor);
+			float Fdistance2 = ResponLocation->GetDistanceTo(OtherActor);
+			if (Fdistance < 1500.0f)
+			{
+				OtherActor->SetActorRotation(qrat* _Delta);
+				OtherActor->AddActorWorldOffset(Dir* _Delta* VectorSpeed);
+			}
+			else
+			{
+				if (Fdistance2 < 10.0f)
+				{
+					Reset();
+					OtherActor->SetActorRotation(FRotator{ 0, 0, 0 }.Quaternion());
+				}
+				else
+				{
+					OtherActor->SetActorRotation(ResponQart * _Delta);
+					OtherActor->AddActorWorldOffset(ResponDir * _Delta * VectorSpeed);
+				}
+			}
+			
 		}
 		break;
 		default:

@@ -20,7 +20,8 @@ enum class VectorState : uint8
 	AccTrace,
 	Look, // Just Teleport Rotataion
 	AngleRot,
-	AngleLook
+	AngleLook,
+	FQuat
 };
 
 UCLASS()
@@ -56,6 +57,7 @@ private:
 
 	AActor* MainActor = nullptr;
 	AActor* OtherActor = nullptr;
+	AActor* ResponLocation = nullptr;
 
 
 	FVector OriPos = FVector::ZeroVector;
