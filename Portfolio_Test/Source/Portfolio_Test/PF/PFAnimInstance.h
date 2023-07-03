@@ -14,4 +14,11 @@ class PORTFOLIO_TEST_API UPFAnimInstance : public UAnimInstance
 {
 	GENERATED_BODY()
 	
+
+public:
+	virtual void NativeUpdateAnimation(float DeltaSeconds) override;
+
+private:
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Pawn, Meta=(AllowPrivateAccess=true))
+	float m_AnimSpeed;
 };
