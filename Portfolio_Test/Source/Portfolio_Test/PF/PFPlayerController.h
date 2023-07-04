@@ -19,6 +19,13 @@ public:
 	
 protected:
 
+	void QKeyPress();
+	void WKeyPress();
+	void EKeyPress();
+	void RKeyPress();
+	void ZKeyPress();
+	void SpaceKeyPress();
+
 	bool bClickRightMouse;
 
 	void InputLeftMouseButtonPressed();

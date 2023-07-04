@@ -3,10 +3,13 @@
 
 #include "PFAnimInstance.h"
 #include "PFCharacter.h"
+#include "Kismet/GameplayStatics.h"
+#include "PFPlayerController.h"
 
 void UPFAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 {
 	Super::NativeUpdateAnimation(DeltaSeconds);
+
 
 	auto pawn = TryGetPawnOwner();
 
@@ -16,6 +19,11 @@ void UPFAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 		SetAnimState(m_AnimSpeed);
 		//UE_LOG(LogTemp, Log, TEXT("Pawn Velocity = %f"), m_AnimSpeed);
 	}
+
+	
+	
+	
+
 }
 
 

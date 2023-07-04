@@ -31,8 +31,13 @@ public:
 
 	void CreateMove();
 	void CreateView();
-	void CreateCharacterSkelMesh();
+	void CreateSkelMesh();
 
+public:
+//Input Binding Keys
+	void MappingAndBindingKey();
+
+	
 private:
 
 	UPROPERTY(VisibleAnywhere)
@@ -41,4 +46,6 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	class UCameraComponent* m_Camera;
 
+	bool bClickLeftMouse = false;
+	bool bclickRightMouse = false;
 };

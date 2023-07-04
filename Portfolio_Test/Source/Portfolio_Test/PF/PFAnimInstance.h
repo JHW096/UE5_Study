@@ -25,8 +25,14 @@ public:
 
 public: 
 	
+	FORCEINLINE
+	ANIMSTATE GetAnimState()
+	{
+		return Anim_State;
+	}
+
 	UFUNCTION(BlueprintCallable)
-	void SetAnimState(float& _Speed)
+	void SetAnimState(const float& _Speed)
 	{
 		
 		if (_Speed > 1.0f)
@@ -39,10 +45,27 @@ public:
 		}
 	}
 
+	FORCEINLINE
+	float GetAnimSpeed()
+	{
+		return m_AnimSpeed;
+	}
+
+	FORCEINLINE
+	void SetAnimSpeed(float& _Speed)
+	{
+		m_AnimSpeed = _Speed;
+	}
+
+	
+
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Pawn, Meta=(AllowPrivateAccess=true))
 	float m_AnimSpeed;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Pawn, Meta = (AllowPrivateAccess = true))
 	ANIMSTATE Anim_State = ANIMSTATE::Idle;
+
+	
+	
 };

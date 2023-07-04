@@ -6,6 +6,10 @@
 #include "Camera/CameraComponent.h"
 #include "Components/Capsulecomponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "PFPlayerController.h"
+#include "Kismet/GameplayStatics.h"
+#include <Blueprint/AIBlueprintHelperLibrary.h>
+#include "GameFramework/PlayerController.h"
 
 // Sets default values
 APFCharacter::APFCharacter()
@@ -20,7 +24,7 @@ APFCharacter::APFCharacter()
 
 	CreateMove();
 	CreateView();
-	CreateCharacterSkelMesh();
+	CreateSkelMesh();
 
 }
 
@@ -28,13 +32,17 @@ APFCharacter::APFCharacter()
 void APFCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 // Called every frame
 void APFCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	if (bClickLeftMouse)
+	{
+		
+	}
 
 }
 
@@ -43,33 +51,8 @@ void APFCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+	MappingAndBindingKey();
 	//Equals Project Input Setting
-
-	static bool bBindingsAdded = false;
-
-	//Add Input Mapping
-	if (!bBindingsAdded)
-	{
-		bBindingsAdded = true;
-
-
-		//Key Mappping
-		UPlayerInput::AddEngineDefinedAxisMapping(FInputAxisKeyMapping("PlayerMoveForward", EKeys::W, 1.0f));
-		UPlayerInput::AddEngineDefinedAxisMapping(FInputAxisKeyMapping("PlayerMoveBackward", EKeys::S, -1.0f));
-		UPlayerInput::AddEngineDefinedAxisMapping(FInputAxisKeyMapping("PlayerMoveLeft", EKeys::A, -1.0f));
-		UPlayerInput::AddEngineDefinedAxisMapping(FInputAxisKeyMapping("PlayerMoveRight", EKeys::D, 1.0f));
-
-		//Mouse Mapping
-		UPlayerInput::AddEngineDefinedAxisMapping(FInputAxisKeyMapping("PlayerTurn", EKeys::MouseX, 1.0f));
-		UPlayerInput::AddEngineDefinedAxisMapping(FInputAxisKeyMapping("PlayerLookUp", EKeys::MouseY, -1.0f));
-
-		//UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("LeftClick", ))
-	}
-	
-	//Bind Key and Function
-	
-
-
 }
 
 void APFCharacter::CreateMove()
@@ -100,7 +83,7 @@ void APFCharacter::CreateView()
 	m_Camera->bUsePawnControlRotation = false;
 }
 
-void APFCharacter::CreateCharacterSkelMesh()
+void APFCharacter::CreateSkelMesh()
 {
 	
 	static ConstructorHelpers::FObjectFinder<USkeletalMesh> SM_Player(
@@ -115,3 +98,31 @@ void APFCharacter::CreateCharacterSkelMesh()
 	
 }
 
+void APFCharacter::MappingAndBindingKey()
+{
+	static bool bBindingAdded = false;
+
+	//Mapping equals Project input settings.
+	if (!bBindingAdded)
+	{
+		bBindingAdded = true;
+
+		//Mapping Click Move
+		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("LeftClick", EKeys::LeftMouseButton, 1.0f));
+		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("RightClick", EKeys::RightMouseButton, 1.0f));
+
+		//Mapping Player Control
+		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("Button_Space", EKeys::SpaceBar, 1.0f));
+		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("Button_C", EKeys::C, 1.0f));
+
+		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("Button_Q", EKeys::Q, 1.0f));
+		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("Button_W", EKeys::W, 1.0f));
+		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("Button_E", EKeys::E, 1.0f));
+		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("Button_R", EKeys::R, 1.0f));
+
+		//Mapping Use Item
+		
+	}
+
+	//Binding InputKey and Playe
+}
