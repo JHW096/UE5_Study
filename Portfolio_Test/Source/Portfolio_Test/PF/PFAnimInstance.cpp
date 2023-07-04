@@ -13,6 +13,8 @@ void UPFAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 	if (IsValid(pawn))
 	{
 		m_AnimSpeed = pawn->GetVelocity().Size();
+		SetAnimState(m_AnimSpeed);
+		//UE_LOG(LogTemp, Log, TEXT("Pawn Velocity = %f"), m_AnimSpeed);
 	}
 }
 
