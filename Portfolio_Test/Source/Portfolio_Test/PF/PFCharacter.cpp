@@ -39,11 +39,6 @@ void APFCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (bClickLeftMouse)
-	{
-		
-	}
-
 }
 
 // Called to bind functionality to input
@@ -51,7 +46,24 @@ void APFCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
-	MappingAndBindingKey();
+	//static bool bBindingAdded = false;
+
+	//if (!bBindingAdded)
+	//{
+	//	bBindingAdded = true;
+
+	//	UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("Dash", EKeys::SpaceBar, 1.0f));
+
+	//	UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("NormalAttack", EKeys::C, 1.0f));
+
+	//	UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping(TEXT("ActionQ"), EKeys::Q));
+	//	//UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("ActionW", EKeys::W, 1.0f));
+	//	//UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("ActionE", EKeys::E, 1.0f));
+	//	//UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("ActionR", EKeys::R, 1.0f));
+	//	//UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("ActionZ", EKeys::Z, 1.0f));
+	//}
+
+	//PlayerInputComponent->BindAction("ActionQ", EInputEvent::IE_Pressed, this, &APFCharacter::InputQKeyPressed);
 	//Equals Project Input Setting
 }
 
@@ -98,31 +110,3 @@ void APFCharacter::CreateSkelMesh()
 	
 }
 
-void APFCharacter::MappingAndBindingKey()
-{
-	static bool bBindingAdded = false;
-
-	//Mapping equals Project input settings.
-	if (!bBindingAdded)
-	{
-		bBindingAdded = true;
-
-		//Mapping Click Move
-		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("LeftClick", EKeys::LeftMouseButton, 1.0f));
-		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("RightClick", EKeys::RightMouseButton, 1.0f));
-
-		//Mapping Player Control
-		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("Button_Space", EKeys::SpaceBar, 1.0f));
-		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("Button_C", EKeys::C, 1.0f));
-
-		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("Button_Q", EKeys::Q, 1.0f));
-		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("Button_W", EKeys::W, 1.0f));
-		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("Button_E", EKeys::E, 1.0f));
-		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("Button_R", EKeys::R, 1.0f));
-
-		//Mapping Use Item
-		
-	}
-
-	//Binding InputKey and Playe
-}

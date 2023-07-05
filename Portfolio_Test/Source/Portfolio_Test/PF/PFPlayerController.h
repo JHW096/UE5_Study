@@ -4,7 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
+#include "TPSEnum.h"
 #include "PFPlayerController.generated.h"
+
+
+
 
 /**
  * 
@@ -19,14 +23,7 @@ public:
 	
 protected:
 
-	void QKeyPress();
-	void WKeyPress();
-	void EKeyPress();
-	void RKeyPress();
-	void ZKeyPress();
-	void SpaceKeyPress();
-
-	bool bClickRightMouse;
+	
 
 	void InputLeftMouseButtonPressed();
 
@@ -40,4 +37,47 @@ protected:
 
 	void PlayerTick(float DeltaTime) override;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	AnimState m_AnimState = AnimState::IDLE;
+
+	float m_Speed = 0.0f;
+
+	bool bClickRightMouse = false;
+
+	float _Destination = 0.0f;
+	
+	APawn* m_Player = nullptr;
+
+	FHitResult m_Hit;
+
+public:
+
+	void SetAnimState(const float& _Speed)
+	{
+
+		if (_Speed > 1.0f)
+		{
+			if (m_AnimState == AnimState::NORMALATTACK)
+			{
+				return;
+			}
+			m_AnimState = AnimState::FWDMOVE;
+		}
+		else
+		{
+			if (m_AnimState == AnimState::NORMALATTACK)
+			{
+				return;
+			}
+			m_AnimState = AnimState::IDLE;
+		}
+	}
+
+public:
+
+	void InputQKeyPressed();
+
+	void InputCKeyPressed();
+	
+	
 };

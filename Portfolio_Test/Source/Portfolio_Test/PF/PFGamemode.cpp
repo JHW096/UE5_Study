@@ -19,17 +19,6 @@ APFGamemode::APFGamemode()
 		DefaultPawnClass = BP_Character.Class;
 	}
 
-	PlayerControllerClass = APFGamemode::StaticClass();
-
-	static ConstructorHelpers::FClassFinder<APlayerController> BP_PlayerController(
-		TEXT("/Script/Engine.Blueprint'/Game/BP_PFPlayerController.BP_PFPlayerController_C'")
-	);
-
-	if (BP_PlayerController.Succeeded())
-	{
-		PlayerControllerClass = BP_PlayerController.Class;
-	}
-
 
 	HUDClass = APF_HUD::StaticClass();
 
@@ -42,4 +31,15 @@ APFGamemode::APFGamemode()
 		HUDClass = BP_HUD.Class;
 	}
 
+	PlayerControllerClass = APFGamemode::StaticClass();
+
+	static ConstructorHelpers::FClassFinder<APlayerController> BP_PlayerController(
+		TEXT("/Script/Engine.AnimBlueprint'/Game/ABP_PFAnimInstance.ABP_PFAnimInstance_C'")
+	);
+
+
+	if (BP_PlayerController.Succeeded())
+	{
+		PlayerControllerClass = BP_PlayerController.Class;
+	}
 }

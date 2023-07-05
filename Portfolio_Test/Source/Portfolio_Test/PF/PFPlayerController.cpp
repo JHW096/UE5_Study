@@ -9,39 +9,13 @@
 APFPlayerController::APFPlayerController()
 {
 	bShowMouseCursor = true;
+
+	if (m_Player == nullptr)
+	{
+		m_Player = Cast<APFCharacter>(GetPawn());
+	}
 }
 
-void APFPlayerController::QKeyPress()
-{
-	
-	UE_LOG(LogTemp, Warning, TEXT("Q Key Pressed"));
-	
-}
-
-void APFPlayerController::WKeyPress()
-{
-	UE_LOG(LogTemp, Warning, TEXT("W Key Pressed"));
-}
-
-void APFPlayerController::EKeyPress()
-{
-	UE_LOG(LogTemp, Warning, TEXT("E Key Pressed"));
-}
-
-void APFPlayerController::RKeyPress()
-{
-	UE_LOG(LogTemp, Warning, TEXT("R Key Pressed"));
-}
-
-void APFPlayerController::ZKeyPress()
-{
-	UE_LOG(LogTemp, Warning, TEXT("Z Key Pressed"));
-}
-
-void APFPlayerController::SpaceKeyPress()
-{
-	UE_LOG(LogTemp, Warning, TEXT("Space Key Pressed"));
-}
 
 void APFPlayerController::SetupInputComponent()
 {
@@ -53,31 +27,28 @@ void APFPlayerController::SetupInputComponent()
 	{
 		bBindingAdded = true;
 
-		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("Dash", EKeys::SpaceBar, 1.0f));
+		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping(TEXT("ActionQ"), EKeys::Q));
+		//UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("ActionW", EKeys::W, 1.0f));
+		//UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("ActionE", EKeys::E, 1.0f));
+		//UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("ActionR", EKeys::R, 1.0f));
+		//UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("ActionZ", EKeys::Z, 1.0f));
 
-		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("NormalAttack", EKeys::C, 1.0f));
-
-		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("Q_Skill", EKeys::Q, 1.0f));
-		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("W_Skill", EKeys::W, 1.0f));
-		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("E_SKill", EKeys::E, 1.0f));
-		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("R_Skill", EKeys::R, 1.0f));
-		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("Ult_Skill", EKeys::Z, 1.0f));
-		
+		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping(TEXT("ActionC"), EKeys::C));
 	}
 
 	//Character Move
 	InputComponent->BindAction("RightClick", IE_Pressed, this, &APFPlayerController::InputRightMouseButtonPressed);
 	InputComponent->BindAction("RightClick", IE_Released, this, &APFPlayerController::InputLeftMouseButtonPressed);
 
-	//Dash
-	InputComponent->BindAction("Dash", EInputEvent::IE_Pressed, this, &APFPlayerController::SpaceKeyPress);
+	InputComponent->BindAction("ActionC", EInputEvent::IE_Pressed, this, &APFPlayerController::InputCKeyPressed);
 
-	//Skill
-	InputComponent->BindAction("W_Skill", EInputEvent::IE_Pressed, this, &APFPlayerController::QKeyPress);
-	InputComponent->BindAction("W_Skill", EInputEvent::IE_Pressed, this, &APFPlayerController::WKeyPress);
-	InputComponent->BindAction("E_Skill", EInputEvent::IE_Pressed, this, &APFPlayerController::EKeyPress);
-	InputComponent->BindAction("R_Skill", EInputEvent::IE_Pressed, this, &APFPlayerController::RKeyPress);
-	InputComponent->BindAction("Ult_Skill", EInputEvent::IE_Pressed, this, &APFPlayerController::EKeyPress);
+
+	InputComponent->BindAction("ActionQ", EInputEvent::IE_Pressed, this, &APFPlayerController::InputQKeyPressed);
+	
+
+
+
+	
 
 
 }
@@ -90,6 +61,8 @@ void APFPlayerController::PlayerTick(float DeltaTime)
 	{
 		MoveToMouseCursor();
 	}
+	m_Speed = GetPawn()->GetVelocity().Size();
+	SetAnimState(m_Speed);
 }
 
 void APFPlayerController::InputLeftMouseButtonPressed()
@@ -100,6 +73,7 @@ void APFPlayerController::InputLeftMouseButtonPressed()
 void APFPlayerController::InputRightMouseButtonPressed()
 {
 	bClickRightMouse = true;
+	
 }
 
 void APFPlayerController::SetNewDestination(const FVector _Destination)
@@ -118,14 +92,23 @@ void APFPlayerController::SetNewDestination(const FVector _Destination)
 
 void APFPlayerController::MoveToMouseCursor()
 {
-	FHitResult Hit;
 
-	GetHitResultUnderCursor(ECC_Visibility, false, Hit);
+	GetHitResultUnderCursor(ECC_Visibility, false, m_Hit);
 
-	if (Hit.bBlockingHit)
+	if (m_Hit.bBlockingHit)
 	{
-		SetNewDestination(Hit.ImpactPoint);
+		SetNewDestination(m_Hit.ImpactPoint);
 	}
 }
 
+void APFPlayerController::InputQKeyPressed()
+{
 
+	UE_LOG(LogTemp, Warning, TEXT("Input Q Key Pressed"));
+}
+
+void APFPlayerController::InputCKeyPressed()
+{
+	UE_LOG(LogTemp, Warning, TEXT("Input C Key Pressed"));
+	m_AnimState = AnimState::NORMALATTACK;
+}

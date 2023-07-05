@@ -19,7 +19,7 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
@@ -37,6 +37,7 @@ public:
 //Input Binding Keys
 	void MappingAndBindingKey();
 
+	void InputQKeyPressed();
 	
 private:
 
@@ -46,6 +47,4 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	class UCameraComponent* m_Camera;
 
-	bool bClickLeftMouse = false;
-	bool bclickRightMouse = false;
 };
